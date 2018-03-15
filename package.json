@@ -1,0 +1,39 @@
+{
+  "name": "video-analytics",
+  "version": "0.0.1",
+  "description": "Video Analytics",
+  "main": "index.ts",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jasmine-ts \"src/main/test/**/**.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rgr-myrg/video-analytics.git"
+  },
+  "keywords": [
+    "typescript",
+    "signal",
+    "event",
+    "emitter"
+  ],
+  "author": "Roger Paul Mayorga <solidity@gmx.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rgr-myrg/video-analytics/issues"
+  },
+  "homepage": "https://github.com/rgr-myrg/video-analytics#readme",
+  "dependencies": {
+    "@types/node": "^9.4.6",
+    "npm": "^5.7.1",
+    "types": "^0.1.1",
+    "typescript": "^2.7.1"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.8.6",
+    "jasmine-spec-reporter": "^4.2.1",
+    "jasmine-ts": "^0.2.1",
+    "ts-node": "^4.1.0"
+  }
+}
