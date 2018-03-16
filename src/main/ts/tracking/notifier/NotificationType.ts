@@ -1,5 +1,5 @@
 export enum NotificationType {
-	normal,
+	standard,
 	priority,
 	urgent
 }
