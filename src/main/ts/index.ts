@@ -1,1 +1,1 @@
-export {Notifier} from "./tracking/notifier/Notifier";
+export {Receiver} from "./tracking/notifier/Receiver";
