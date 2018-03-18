@@ -9,7 +9,7 @@
 		"declaration": true,
 		"strict": true,
 		"outDir": "./",
-		"lib": ["es5", "es6", "dom"]
+		"lib": ["es5", "es2015.collection", "es2015.promise", "dom", "es6"]
 	},
 	"files": [
 		"./src/main/ts/index.ts"

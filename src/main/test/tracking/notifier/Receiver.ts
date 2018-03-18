@@ -50,8 +50,8 @@ describe("Receiver Tests", () => {
 		onUrgentSpy   = spyOn(delegate, "onUrgent").and.callThrough();
 	});
 
-	it("startReceiving should enable receiving notifications", () => {
-		receiver.startReceiving();
+	it("startReceivingNotifications should enable receiving notifications", () => {
+		receiver.startReceivingNotifications();
 
 		for (let i = 0; i < 5; i++) {
 			receiver.sendNotification(notification);
@@ -61,8 +61,8 @@ describe("Receiver Tests", () => {
 		expect(delegate.onReceive).toHaveBeenCalledWith(notification);
 	});
 
-	it("pauseReceiving should disable receiving notifications", () => {
-		receiver.pauseReceiving();
+	it("pauseReceivingNotifications should disable receiving notifications", () => {
+		receiver.pauseReceivingNotifications();
 		receiver.sendNotification(notification);
 
 		expect(delegate.onReceive).toHaveBeenCalledTimes(0);
@@ -91,13 +91,13 @@ describe("Receiver Tests", () => {
 			type: NotificationType.priority
 		});
 
-		receiver.startReceiving();
+		receiver.startReceivingNotifications();
 
 		expect(delegate.onPriority).toHaveBeenCalledBefore(onReceiveSpy);
 	});
 
 	it("unsubscribe should delete the callback", () => {
-		receiver.startReceiving();
+		receiver.startReceivingNotifications();
 
 		receiver.notification.unsubscribe("receive");
 		receiver.sendNotification({
@@ -111,7 +111,7 @@ describe("Receiver Tests", () => {
 	});
 
 	it("subscribe should add the callback", () => {
-		receiver.startReceiving();
+		receiver.startReceivingNotifications();
 
 		receiver.notification.subscribe([{on: "receive", callback: receiver.onReceive}]);
 		receiver.sendNotification({

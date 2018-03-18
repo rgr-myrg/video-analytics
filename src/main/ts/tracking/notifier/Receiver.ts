@@ -6,15 +6,16 @@ export class Receiver {
 	private standard: Notification[] = [];
 	private priority: Notification[] = [];
 	private shouldPostNotifications: boolean = false;
+	private id: string | undefined;
 
 	public notification: NotificationInterest = new NotificationInterest();
 
-	public startReceiving(): void {
+	public startReceivingNotifications(): void {
 		this.shouldPostNotifications = true;
 		this.postNotifications();
 	}
 
-	public pauseReceiving(): void {
+	public pauseReceivingNotifications(): void {
 		this.shouldPostNotifications = false;
 	}
 
@@ -34,6 +35,14 @@ export class Receiver {
 		}
 
 		this.postNotifications();
+	}
+
+	public setId(id: string): void {
+		this.id = id;
+	}
+
+	public getId(): string {
+		return this.id || "undefined";
 	}
 
 	private postNotifications(): void {
