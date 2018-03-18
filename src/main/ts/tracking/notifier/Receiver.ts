@@ -29,7 +29,6 @@ export class Receiver {
 				break;
 
 			case NotificationType.urgent:
-				//this.notify.call(this, notification);
 				this.notification.post(notification.name).call(this, notification);
 				break;
 		}
@@ -50,7 +49,10 @@ export class Receiver {
 		/* Reverse loop with implicit comparison */
 		for (let i = queue.length; i--;) {
 			let bundle: Notification = <Notification>queue.shift();
-			this.notification.post(bundle.name).call(this, bundle);
+
+			if (this.notification.has(bundle.name)) {
+				this.notification.post(bundle.name).call(this, bundle);
+			}
 		}
 	}
 }

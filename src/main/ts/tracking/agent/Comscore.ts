@@ -8,16 +8,8 @@ export class Comscore extends Receiver {
 		super();
 
 		this.notification.subscribe([
-			{event: Event.CONFIG_READY, listener: this.onConfigReady}
+			{on: Event.CONFIG_READY, callback: this.onConfigReady}
 		]);
-
-		// this.onNotify((notification: Notification) => {
-		// 	switch (notification.name) {
-		// 		case Event.CONFIG_READY:
-		// 			this.onConfigReady();
-		// 			break;
-		// 	}
-		// });
 	}
 
 	private onConfigReady(): void {

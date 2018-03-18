@@ -20,9 +20,9 @@ describe("Receiver Tests", () => {
 			super();
 
 			this.notification.subscribe([
-				{event: "onReceive", listener: this.onReceive},
-				{event: "onPriority", listener: this.onPriority},
-				{event: "onUrgent", listener: this.onUrgent}
+				{on: "receive", callback: this.onReceive},
+				{on: "priority", callback: this.onPriority},
+				{on: "urgent", callback: this.onUrgent}
 			]);
 		}
 		public onReceive(notification: Notification): void {
@@ -40,7 +40,7 @@ describe("Receiver Tests", () => {
 		receiver = new MockReceiver();
 
 		notification = {
-			name: "onReceive",
+			name: "receive",
 			body: {data: 555},
 			type: NotificationType.standard
 		};
@@ -69,7 +69,7 @@ describe("Receiver Tests", () => {
 	});
 
 	it("sendNotification should send urgent notifications immediately", () => {
-		notification.name = "onUrgent";
+		notification.name = "urgent";
 		notification.type = NotificationType.urgent;
 
 		receiver.sendNotification(notification);
@@ -80,13 +80,13 @@ describe("Receiver Tests", () => {
 
 	it("sendNotification should send priority notifications ahead of the queue", () => {
 		receiver.sendNotification({
-			name: "onReceive",
+			name: "receive",
 			body: {},
 			type: NotificationType.standard
 		});
 
 		receiver.sendNotification({
-			name: "onPriority",
+			name: "priority",
 			body: {data: 1},
 			type: NotificationType.priority
 		});
@@ -94,5 +94,33 @@ describe("Receiver Tests", () => {
 		receiver.startReceiving();
 
 		expect(delegate.onPriority).toHaveBeenCalledBefore(onReceiveSpy);
+	});
+
+	it("unsubscribe should delete the callback", () => {
+		receiver.startReceiving();
+
+		receiver.notification.unsubscribe("receive");
+		receiver.sendNotification({
+			name: "receive",
+			body: {},
+			type: NotificationType.standard
+		});
+
+		expect(receiver.notification.has("receive")).toBe(false);
+		expect(delegate.onReceive).toHaveBeenCalledTimes(0);
+	});
+
+	it("subscribe should add the callback", () => {
+		receiver.startReceiving();
+
+		receiver.notification.subscribe([{on: "receive", callback: receiver.onReceive}]);
+		receiver.sendNotification({
+			name: "receive",
+			body: {},
+			type: NotificationType.standard
+		});
+
+		expect(receiver.notification.has("receive")).toBe(true);
+		expect(delegate.onReceive).toHaveBeenCalledTimes(1);
 	});
 });
