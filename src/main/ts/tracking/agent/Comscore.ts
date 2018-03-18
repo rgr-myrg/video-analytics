@@ -5,7 +5,7 @@ import {NotificationInterest} from "../notifier/NotificationInterest";
 import {Config} from "../model/Config";
 
 export class Comscore extends Receiver {
-	public static NAME: string = "Comscore Agent";
+	public static NAME: string = "ComscoreReceiver";
 
 	constructor() {
 		super(Comscore.NAME);

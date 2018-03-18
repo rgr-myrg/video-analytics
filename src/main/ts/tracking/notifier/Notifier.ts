@@ -9,14 +9,18 @@ export class Notifier {
 		this.receivers.unshift(receiver);
 	}
 
-	public removeReceiver(key: string): void {
+	public removeReceiver(key: string): Receiver | undefined {
+		let receiver: Receiver | undefined;
+
 		for (let i = this.receivers.length; i--;) {
 			if (this.receivers[i].getKey() === key) {
-				this.receivers[i].destroy();
+				receiver = this.receivers[i];
 				this.receivers.splice(i, 1);
 				break;
 			}
 		}
+
+		return receiver;
 	}
 
 	public getReceiver(key: string): Receiver | undefined {
@@ -30,6 +34,10 @@ export class Notifier {
 		}
 
 		return receiver;
+	}
+
+	public getReceiverCount(): number {
+		return this.receivers.length;
 	}
 
 	public notify(eventName: string, eventData: any): void {
