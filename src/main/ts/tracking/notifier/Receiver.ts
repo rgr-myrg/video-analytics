@@ -5,14 +5,9 @@ import {NotificationInterest} from "./NotificationInterest";
 export class Receiver {
 	private standard: Notification[] = [];
 	private priority: Notification[] = [];
-	private notify: Function = new Function();
 	private shouldPostNotifications: boolean = false;
 
 	public notification: NotificationInterest = new NotificationInterest();
-
-	public onNotify(callback: Function): void {
-		this.notify = callback;
-	}
 
 	public startReceiving(): void {
 		this.shouldPostNotifications = true;
@@ -34,7 +29,8 @@ export class Receiver {
 				break;
 
 			case NotificationType.urgent:
-				this.notify.call(this, notification);
+				//this.notify.call(this, notification);
+				this.notification.post(notification.name).call(this, notification);
 				break;
 		}
 
@@ -53,10 +49,7 @@ export class Receiver {
 	private process(queue: Notification[]): void {
 		/* Reverse loop with implicit comparison */
 		for (let i = queue.length; i--;) {
-			//this.notify.call(this, queue.shift());
 			let bundle: Notification = <Notification>queue.shift();
-			// let notify: Function = this.notification.post(bundle.name);
-			// notify.call(this, bundle);
 			this.notification.post(bundle.name).call(this, bundle);
 		}
 	}

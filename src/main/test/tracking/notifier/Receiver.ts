@@ -3,57 +3,41 @@ import {Notification} from "../../../ts/tracking/notifier/Notification";
 import {NotificationType} from "../../../ts/tracking/notifier/NotificationType";
 
 describe("Receiver Tests", () => {
-	let receiver: TestReceiver;
 	let onReceiveSpy: any;
 	let onPrioritySpy: any;
+	let onUrgentSpy: any;
 	let notification: Notification;
-	let posted: Notification;
-	let mockReceiver = {
-		onReceive: function(notification: Notification) {
-			console.log("[mockReceiver] onReceive", notification);
-			posted = notification;
-		},
-		onPriority: function(notification: Notification) {
-			posted = notification;
-		},
-		getNotification: function(): Notification {
-			return posted;
-		}
+	let receiver: MockReceiver;
+
+	let delegate = {
+		onReceive: function(notification: Notification) {},
+		onPriority: function(notification: Notification) {},
+		onUrgent: function(notification: Notification) {}
 	};
 
-	class TestReceiver extends Receiver {
+	class MockReceiver extends Receiver {
 		constructor() {
 			super();
 
 			this.notification.subscribe([
 				{event: "onReceive", listener: this.onReceive},
-				{event: "onPriority", listener: this.onPriority}
+				{event: "onPriority", listener: this.onPriority},
+				{event: "onUrgent", listener: this.onUrgent}
 			]);
-
-			// this.onNotify((notification: Notification) => {
-			// 	switch (notification.name) {
-			// 		case "onReceive":
-			// 			mockReceiver.onReceive(notification);
-			// 			break;
-			// 		case "onPriority":
-			// 			mockReceiver.onPriority(notification);
-			// 			break;
-			// 	}
-			// });
 		}
-
 		public onReceive(notification: Notification): void {
-			console.log("[TestReceiver] onReceive", notification);
-			posted = notification;
+			delegate.onReceive(notification);
 		}
 		public onPriority(notification: Notification): void {
-			console.log("[TestReceiver] onPriority", notification, this);
-			posted = notification;
+			delegate.onPriority(notification);
+		}
+		public onUrgent(notification: Notification): void {
+			delegate.onUrgent(notification);
 		}
 	}
 
 	beforeEach(() => {
-		receiver = new TestReceiver();
+		receiver = new MockReceiver();
 
 		notification = {
 			name: "onReceive",
@@ -61,8 +45,9 @@ describe("Receiver Tests", () => {
 			type: NotificationType.standard
 		};
 
-		onReceiveSpy = spyOn(receiver, "onReceive").and.callThrough();
-		onPrioritySpy = spyOn(receiver, "onPriority").and.callThrough();
+		onReceiveSpy  = spyOn(delegate, "onReceive").and.callThrough();
+		onPrioritySpy = spyOn(delegate, "onPriority").and.callThrough();
+		onUrgentSpy   = spyOn(delegate, "onUrgent").and.callThrough();
 	});
 
 	it("startReceiving should enable receiving notifications", () => {
@@ -72,25 +57,25 @@ describe("Receiver Tests", () => {
 			receiver.sendNotification(notification);
 		}
 
-	//	expect(receiver.onReceive).toHaveBeenCalledTimes(5);
-		expect(posted).toEqual(notification);
+		expect(delegate.onReceive).toHaveBeenCalledTimes(5);
+		expect(delegate.onReceive).toHaveBeenCalledWith(notification);
 	});
 
 	it("pauseReceiving should disable receiving notifications", () => {
 		receiver.pauseReceiving();
 		receiver.sendNotification(notification);
 
-		expect(receiver.onReceive).toHaveBeenCalledTimes(0);
+		expect(delegate.onReceive).toHaveBeenCalledTimes(0);
 	});
 
 	it("sendNotification should send urgent notifications immediately", () => {
+		notification.name = "onUrgent";
 		notification.type = NotificationType.urgent;
 
 		receiver.sendNotification(notification);
 
-		expect(receiver.onReceive).toHaveBeenCalledWith(notification);
-		expect(receiver.onReceive).toHaveBeenCalledTimes(1);
-		expect(mockReceiver.getNotification().name).toEqual(notification.name);
+		expect(delegate.onUrgent).toHaveBeenCalledWith(notification);
+		expect(delegate.onUrgent).toHaveBeenCalledTimes(1);
 	});
 
 	it("sendNotification should send priority notifications ahead of the queue", () => {
@@ -108,7 +93,6 @@ describe("Receiver Tests", () => {
 
 		receiver.startReceiving();
 
-		expect(receiver.onPriority).toHaveBeenCalledBefore(onReceiveSpy);
-		expect(mockReceiver.getNotification().name).toEqual("onReceive");
+		expect(delegate.onPriority).toHaveBeenCalledBefore(onReceiveSpy);
 	});
 });
