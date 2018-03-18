@@ -6,8 +6,10 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
+    "bundle": "tsc --module amd --outFile bundle.js src/main/ts/index.ts",
     "test": "jasmine-ts \"src/main/test/**/**.ts\"",
-	"coverage": "nyc -e .ts -x \"./src/main/test/**/*.ts\" jasmine-ts \"./src/main/test/**/*.ts\""
+    "coverage": "nyc -e .ts -x \"./src/main/test/**/*.ts\" jasmine-ts \"./src/main/test/**/*.ts\"",
+	"package": "npm run coverage && npm run bundle"
   },
   "repository": {
     "type": "git",
