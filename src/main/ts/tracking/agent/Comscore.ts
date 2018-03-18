@@ -8,13 +8,12 @@ export class Comscore extends Receiver {
 	public static NAME: string = "Comscore Agent";
 
 	constructor() {
-		super();
+		super(Comscore.NAME);
 
 		this.notification.subscribe([
-			{on: Event.CONFIG_READY, callback: this.onConfigReady}
+			{on: Event.CONFIG_READY, callback: this.onConfigReady},
+			{on: Event.SDK_LOADED, callback: this.onSdkLoaded}
 		]);
-
-		this.setId(Comscore.NAME);
 	}
 
 	private onConfigReady(config: Config): void {

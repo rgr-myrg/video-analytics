@@ -16,8 +16,9 @@ describe("Receiver Tests", () => {
 	};
 
 	class MockReceiver extends Receiver {
+		public static NAME: string = "MockReceiver";
 		constructor() {
-			super();
+			super(MockReceiver.NAME);
 
 			this.notification.subscribe([
 				{on: "receive", callback: this.onReceive},
@@ -122,5 +123,9 @@ describe("Receiver Tests", () => {
 
 		expect(receiver.notification.has("receive")).toBe(true);
 		expect(delegate.onReceive).toHaveBeenCalledTimes(1);
+	});
+
+	it("getKey should return the receiver's key", () => {
+		expect(receiver.getKey()).toEqual(MockReceiver.NAME);
 	});
 });

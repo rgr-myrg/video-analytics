@@ -6,9 +6,13 @@ export class Receiver {
 	private standard: Notification[] = [];
 	private priority: Notification[] = [];
 	private shouldPostNotifications: boolean = false;
-	private id: string | undefined;
+	private key: string | undefined;
 
 	public notification: NotificationInterest = new NotificationInterest();
+
+	constructor(key: string) {
+		this.key = key;
+	}
 
 	public startReceivingNotifications(): void {
 		this.shouldPostNotifications = true;
@@ -37,12 +41,13 @@ export class Receiver {
 		this.postNotifications();
 	}
 
-	public setId(id: string): void {
-		this.id = id;
+	public getKey(): string | undefined {
+		return this.key;
 	}
 
-	public getId(): string {
-		return this.id || "undefined";
+	public destroy(): void {
+		delete this.standard;
+		delete this.priority;
 	}
 
 	private postNotifications(): void {

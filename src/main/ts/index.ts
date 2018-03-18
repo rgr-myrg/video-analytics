@@ -1,3 +1,10 @@
+export {Comscore} from "./tracking/agent/Comscore";
+export {Event} from "./tracking/event/Event";
+export {Config} from "./tracking/model/Config";
 export {Notification} from "./tracking/notifier/Notification";
+export {NotificationInterest} from "./tracking/notifier/NotificationInterest";
 export {NotificationType} from "./tracking/notifier/NotificationType";
+export {Notifier} from "./tracking/notifier/Notifier";
 export {Receiver} from "./tracking/notifier/Receiver";
+export {SdkLoader, SdkError} from "./tracking/util/SdkLoader";
+export {VideoAnalytics} from "./tracking/VideoAnalytics";

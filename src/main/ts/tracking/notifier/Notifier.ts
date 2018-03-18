@@ -9,11 +9,21 @@ export class Notifier {
 		this.receivers.unshift(receiver);
 	}
 
-	public getReceiver(name: string): Receiver {
-		let receiver: Receiver = undefined;
+	public removeReceiver(key: string): void {
+		for (let i = this.receivers.length; i--;) {
+			if (this.receivers[i].getKey() === key) {
+				this.receivers[i].destroy();
+				this.receivers.splice(i, 1);
+				break;
+			}
+		}
+	}
+
+	public getReceiver(key: string): Receiver | undefined {
+		let receiver: Receiver | undefined;
 
 		for (let i = this.receivers.length; i--;) {
-			if (this.receivers[i].getId() === name) {
+			if (this.receivers[i].getKey() === key) {
 				receiver = this.receivers[i];
 				break;
 			}
