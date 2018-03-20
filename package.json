@@ -8,8 +8,8 @@
     "build": "tsc",
     "test": "jasmine-ts \"src/main/test/**/**.ts\"",
     "coverage": "nyc -e .ts -x \"./src/main/test/**/*.ts\" jasmine-ts \"./src/main/test/**/*.ts\"",
-	"bundle": "tsc --module amd --outFile build/bundle.js src/main/ts/index.ts",
-	"uglify": "uglifyjs --compress --output build/bundle.min.js -- build/bundle.js",
+    "bundle": "tsc --module amd --outFile build/bundle.js src/main/ts/index.ts",
+    "uglify": "uglifyjs --compress --output build/bundle.min.js -- build/bundle.js",
     "package": "npm run coverage && npm run bundle && npm run uglify"
   },
   "repository": {

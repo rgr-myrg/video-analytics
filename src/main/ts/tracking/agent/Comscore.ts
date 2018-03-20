@@ -1,8 +1,7 @@
 import {Receiver} from "../notifier/Receiver";
 import {Event} from "../event/Event";
-import {Notification} from "../notifier/Notification";
-import {NotificationInterest} from "../notifier/NotificationInterest";
 import {Config} from "../model/Config";
+import {LiveSegmentDTO} from "../dto/LiveSegmentDTO";
 
 export class Comscore extends Receiver {
 	public static NAME: string = "ComscoreReceiver";
@@ -22,5 +21,9 @@ export class Comscore extends Receiver {
 
 	private onSdkLoaded(): void {
 		this.startReceivingNotifications();
+	}
+
+	private onContentMetadata(metadata: any): void {
+		LiveSegmentDTO.fromContentMetadata(metadata);
 	}
 }
