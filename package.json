@@ -6,10 +6,11 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
-    "bundle": "tsc --module amd --outFile bundle.js src/main/ts/index.ts",
     "test": "jasmine-ts \"src/main/test/**/**.ts\"",
     "coverage": "nyc -e .ts -x \"./src/main/test/**/*.ts\" jasmine-ts \"./src/main/test/**/*.ts\"",
-    "package": "npm run coverage && npm run bundle"
+	"bundle": "tsc --module amd --outFile build/bundle.js src/main/ts/index.ts",
+	"uglify": "uglifyjs --compress --output build/bundle.min.js -- build/bundle.js",
+    "package": "npm run coverage && npm run bundle && npm run uglify"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,6 @@
   "homepage": "https://github.com/rgr-myrg/video-analytics#readme",
   "dependencies": {
     "@types/node": "^9.4.6",
-    "npm": "^5.7.1",
     "types": "^0.1.1",
     "typescript": "^2.7.1"
   },
@@ -39,6 +39,7 @@
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-ts": "^0.2.1",
     "nyc": "^11.6.0",
-    "ts-node": "^4.1.0"
+    "ts-node": "^4.1.0",
+    "uglify-js": "^3.3.16"
   }
 }

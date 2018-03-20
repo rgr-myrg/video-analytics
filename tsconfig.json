@@ -8,8 +8,8 @@
 		"sourceMap": true,
 		"declaration": true,
 		"strict": true,
-		"outDir": "./",
-		"lib": ["es5", "es2015.collection", "es2015.promise", "dom", "es6"]
+		"outDir": "./build",
+		"lib": ["es5", "es2015.collection", "es2015.promise", "dom"]
 	},
 	"files": [
 		"./src/main/ts/index.ts"
