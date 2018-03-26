@@ -9,7 +9,15 @@
 		"declaration": true,
 		"strict": true,
 		"outDir": "./build",
-		"lib": ["es5", "es2015.collection", "es2015.promise", "dom"]
+		"skipLibCheck": true,
+		"lib": [
+			"es5",
+			"es2015.collection",
+			"es2015.promise",
+			"dom",
+			"webworker",
+			"scripthost"
+		]
 	},
 	"files": [
 		"./src/main/ts/index.ts"
