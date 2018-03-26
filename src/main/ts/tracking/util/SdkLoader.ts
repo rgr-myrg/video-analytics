@@ -28,6 +28,12 @@ export class SdkLoader {
 			this.onerror.call(this, {err: "Sdk Key Not Found"});
 			return;
 		}
+
+		let script: HTMLScriptElement = window.document.createElement("script");
+		script.type = "text/javascript";
+		script.async = true;
+		//if (script.read)
+		script.onload
 	}
 }
 
